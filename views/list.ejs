@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+    <!-- Font Awesome CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+        integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.4.0/socket.io.js"></script>
+
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.0/css/bulma.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <!-- Font Awesome CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Stylish&display=swap" rel="stylesheet">
+    <!--새로 추가    -->
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+
+    <link href="/static/mystyle.css" rel="stylesheet">
+    <title>나만의 블로그</title>
+    <script>
+
+        $(document).ready(function () {
+            get_lists()
+        })
+
+        function get_lists() {
+            $("#viewLists").empty()
+            $.ajax({
+                type: "GET",
+                url: `/api/list`,
+                data: {},
+                success: function (response) {
+                    let list = response["list"]
+                    for (let i = 0; i < list.length; i++) {
+                        make_card(list[i])
+                    }
+                }
+            })
+        }
+
+        // function make_card(item) {
+        //     let htmlTemp = `<tr>
+        //                         <th><a href='/detail?date=${item["submitDate"]}'>${item["title"]}</a></th>
+        //                         <td>${item["name"]}</td>
+        //                         <td>${item["date"]}</td>
+        //                     </tr>`
+        //     $("#viewLists").append(htmlTemp)
+        // }
+
+        function make_card(item) {
+            let htmlTemp = `<tr>
+                                <th><a href='/detail?id=${item["_id"]}'>${item["title"]}</a></th>
+                                <td>${item["name"]}</td>
+                                <td>${item["date"]}</td>
+                            </tr>`
+            $("#viewLists").append(htmlTemp)
+        }
+       
+    </script>
+    <style>
+
+        body {
+            background-color: rgb(65, 70, 73);
+            min-height: 100vh;
+        }
+
+        .title {
+            font-weight: 800;
+            font-size: 5rem;
+            font-family: 'Do Hyeon', sans-serif;
+        }
+
+        .is-sparta {
+            color: #353131 !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!--제목-->
+    <section class="hero is-white">
+        <div class="hero-body has-text-centered" style="padding-bottom:0.5rem; margin:auto">
+            <h4 class="title is-sparta">나의 블로그</h4>
+        </div>
+
+        <!-- 글쓰기 버튼 -->
+        <div class="d-grid gap-2" style="text-align: right;">
+            <button class="btn btn-primary" type="button" style="background-color: rgb(93, 105, 116);">
+                <a class="navbar-brand" href="/write" style="color:rgb(241, 229, 229)">
+                    글쓰기
+                </a>
+            </button>
+        </div>
+
+
+    </section>
+    <table class="table" style="width: 800px; margin:auto; margin-top: 20px;">
+        <!-- header -->
+        <thead>
+            <tr>
+                <th>제목</th>
+                <th>작성자명</th>
+                <th>작성 날짜</th>
+                
+            </tr>
+        </thead>
+
+        <!-- body -->
+        <tbody id="viewLists">
+             <!-- 1 body of 제목, 작성자명, 작성 시간 -->
+             <tr>
+                <th><a href="/detail">세 번째 게시물-내림차순</a></th>
+                <td>황유정</td>
+                <td>2021-9-25 12시 50분 </td>
+            </tr>
+
+            <!-- 2 body of 제목, 작성자명, 작성 시간 -->
+            <!-- <tr>
+                <th><a href="/detail">두 번째 게시물-내림차순</a></th>
+                <td>황유정</td>
+                <td>2021-9-25 12시 19분</td>
+            </tr> -->
+
+            <!-- 3 body of 제목, 작성자명, 작성 시간 -->
+            <!-- <tr>
+                <th><a href="/detail">첫 번째 게시물</a></th>
+                <td>황유정</td>
+                <td>2021-9-25 12시 18분 </td>
+            </tr>  -->
+
+        </tbody>
+
+
+    </table>
+
+    <section>
+
+
+    </section>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    
+    <!-- Font Awesome CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <!-- Font Awesome CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Stylish&display=swap" rel="stylesheet">
+    <!--새로 추가    -->
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+
+
+    <link href="/static/mystyle.css" rel="stylesheet">
+    <title>나만의 블로그</title>
+    <script>
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const ID = urlParams.get("id");
+
+        $(document).ready(function () {
+            get_detail()
+        })
+
+        function get_detail() {
+                $.ajax({
+                    type: "GET",
+                    url: `api/list/${ID}`,
+                    data: {},
+                    success: function (response) {
+                        let listDetail = response["detail"];
+                        // console.log(listDetail)
+
+                        //.text가 아닌 .val값을 받음
+                        $("#list_title").val(listDetail["title"]);
+                        $("#list_name").val(listDetail["name"]);
+                        $("#date").text(listDetail["date"]);
+                        $("#list_content").text(listDetail["content"]);
+                    }
+                });
+            }
+
+        // "수정 완료" 버튼을 누르면 modal 창이 뜨게 하는 function    
+        function start_modal(){
+            $('#list_modal').modal('show');
+            $('#list_modal').appendTo('body');
+
+        }
+
+        //수정 완료하고 modal창이 뜬 후, 비번을 입력 완료할 때
+        // "확인" 버튼을 누르면 불린다.
+        function finish_edit(){
+            $.ajax({
+                type: "GET",
+                url: `api/list/${ID}`,
+                data: {},
+                success: function (response){
+                    let listDetail = response["detail"];
+                    //db에 저장된 비번
+                    let db_pwd = listDetail['pwd']
+                    if(db_pwd == $('#list_pwd').val()){
+                        edit_list()
+                    }
+                    else{
+                        alert("비밀번호가 일치하지 않습니다!");
+                    }
+                }
+            })
+
+        }   
+
+        // db_pwd == $('#list_pwd').val())가 true일 때 불리는 function
+        function edit_list(){
+            $.ajax({
+                type: "PATCH",
+                url: `api/list/${ID}`,
+                data: {
+                    //새로 입력한 데이터
+                    title: $('#list_title').val(),
+                    name: $('#list_name').val(),
+                    content: $('#list_content').val()
+                },
+                success: function(response) {
+                    if(response["result"] === "success"){
+                        alert("수정 되었습니다!")
+                        window.location.href = "/"
+                    }
+                }
+            })
+
+        }
+
+
+    </script>
+    <style>
+        body {
+            background-color: rgb(65, 70, 73);
+            min-height: 100vh;
+        }
+    
+        .title {
+            font-weight: 800;
+            font-size: 5rem;
+            font-family: 'Do Hyeon', sans-serif;
+        }
+    
+        .is-sparta {
+            color: #353131 !important;
+        }
+
+        /* Remove the backdrop */
+        .modal-backdrop{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero is-white">
+        <div class="hero-body has-text-centered" style="padding-bottom:0.5rem; margin:auto">
+            <h4 class="title is-sparta"><a href="/">나의 블로그</a></h4>
+        </div>
+    </section>
+
+    <section style="width: 700px; height: 600px; margin:auto; margin-top: 30px;">
+        <!-- 제목 부분 -->
+        <div class="field">
+            <label class="label" style="color:aliceblue">제목</label>
+            <input id="list_title" class="form-control">
+        </div>
+
+        <!-- 작성자명 -->
+        <div class="field">
+            <label class="label" style="color:aliceblue">작성자명</label>
+            <input id="list_name" class="form-control">
+        </div>
+
+        <!-- 작성 날짜 -->
+        <div class="field">
+            <label class="label" style="color:aliceblue">작성 날짜</label>
+            <label id="date" class="form-control"></label>
+        </div>
+
+        <!-- 작성 내용 -->
+        <div class="field">
+            <label class="label" style="color:aliceblue">작성 내용</label>
+            <div class="control">
+                <textarea class="textarea" id="list_content"></textarea>>
+            </div>
+        </div>
+
+        <div class="field is-grouped">
+            <div class="control">
+                <!-- 수정하기 버튼 -->
+                <button class="button is-link" onclick="start_modal()">수정 완료</button>
+            </div>
+
+            <div class="control">
+                <!-- 삭제 버튼 -->
+                <button class="button is-link is-light">
+                    <a href="/">취소</a>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 수정완료 버튼 누를 때 뜨는 modal! -->
+    <!--modal의 id를 list_modal로 함-->
+    <div class="modal fade" id="list_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true" style="z-index:500;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">삭제</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <!-- <span aria-hidden="true">&times;</span> -->
+                    </button>
+                </div>
+
+                <!-- modal body -->
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">비밀 번호를 입력하시오</label>
+                        <!-- 비밀번호 받는 input box -->
+                        <input type="text" class="form-control" id="list_pwd" placeholder="비밀번호를 적으세요">
+                    </div>
+                </div>
+
+                <!-- 확인, 취소하기 -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="finish_edit()">확인</button>
+                    <!-- data-dismiss="modal"는 취소 누르면 modal 창 없애게 해줌 -->
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"> 취소</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
