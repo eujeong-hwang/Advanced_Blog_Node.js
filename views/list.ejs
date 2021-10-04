@@ -63,15 +63,6 @@
             })
         }
 
-        // function make_card(item) {
-        //     let htmlTemp = `<tr>
-        //                         <th><a href='/detail?date=${item["submitDate"]}'>${item["title"]}</a></th>
-        //                         <td>${item["name"]}</td>
-        //                         <td>${item["date"]}</td>
-        //                     </tr>`
-        //     $("#viewLists").append(htmlTemp)
-        // }
-
         function make_card(item) {
             let htmlTemp = `<tr>
                                 <th><a href='/detail?id=${item["_id"]}'>${item["title"]}</a></th>
@@ -81,6 +72,12 @@
             $("#viewLists").append(htmlTemp)
         }
        
+        //로그아웃 버튼 클릭 -> 쿠키(토큰)삭제 -> 로그인페이지로이동
+        function sign_out() {
+            $.removeCookie('mytoken', {path: '/'});
+            alert('로그아웃 완료!')
+            window.location.href="/"
+        }
     </script>
     <style>
 
@@ -102,6 +99,20 @@
 </head>
 
 <body>
+    <!-- 로그인 회원가입 버튼 -->
+    <div style="text-align: right; background-color: rgb(253, 253, 253);">
+        <button id="btn_login" class="btn btn-secondary btn-sm" type="button" style="background-color: rgb(118, 125, 131);">
+            <a class="navbar-brand" href="/signIn" style="color:rgb(241, 229, 229)">
+                로그인/회원가입
+            </a>
+        </button>
+
+        <!-- <button id="btn_logout" class="btn btn-secondary btn-sm" type="button" style="background-color: rgb(118, 125, 131);">
+            <a class="navbar-brand" onclick="logout()" style="color:rgb(241, 229, 229)">
+                로그아웃
+            </a>
+        </button> -->
+    </div>
     <!--제목-->
     <section class="hero is-white">
         <div class="hero-body has-text-centered" style="padding-bottom:0.5rem; margin:auto">

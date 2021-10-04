@@ -62,15 +62,15 @@
                     window.location.replace("/");
                 },
                 error: function (error) {
-                    customAlert(error.responseJSON.errorMessage);
+                    alert(error.responseJSON.errorMessage);
                 },
             });
         }
 
-        function customAlert(text) {
-            $("#alertText").text(text);
-            $("#alertModal").modal("show");
-        }
+        // function customAlert(text) {
+        //     $("#alertText").text(text);
+        //     $("#alertModal").modal("show");
+        // }
     </script>
 
 </head>

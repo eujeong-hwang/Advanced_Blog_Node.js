@@ -1,12 +1,12 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
-const User = require("./schemas/user");
+const User = require("../schemas/user");
 const router = express.Router();
 
-
+// const authMiddleware = require("../middlewares/auth-middleware");
 
 // 회원가입 API - POST
-router.post("/users", async (req, res) => {
+router.post("/signUp", async (req, res) => {
   const { nickname, password, confirmPassword } = req.body;
 
   if (password !== confirmPassword) {
@@ -17,7 +17,7 @@ router.post("/users", async (req, res) => {
   }
 
   // email or nickname이 동일한게 이미 있는지 확인하기 위해 가져온다.
-  const existsUsers = await User.findOne(nickname);
+  const existsUsers = await User.findOne({nickname});
   if (existsUsers) {
     res.status(400).send({
       errorMessage: "이메일 또는 닉네임이 이미 사용중입니다.",
@@ -30,6 +30,8 @@ router.post("/users", async (req, res) => {
 
   res.status(201).send({});
 });
+
+
 
 
 //로그인 API - POST
@@ -49,7 +51,7 @@ router.post("/signIn", async (req, res) => {
       return;
     }
   
-    const token = jwt.sign({userId: user.userId}, "my-secret-key")
+    const token = jwt.sign({userId: user.userId}, "eujeong-secret-key")
     res.send({token})
   
   //   res.send({
@@ -57,5 +59,10 @@ router.post("/signIn", async (req, res) => {
   //     token: jwt.sign({ nickname: nickname }, "my-secret-key"),
   //   });
   });
+
+
+// router.get("/signIn/me", authMiddleware, async(req, res) =>{
+//     res.status(400).send({});
+// })
 
 module.exports = router;

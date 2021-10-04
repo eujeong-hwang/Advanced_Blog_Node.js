@@ -19,6 +19,9 @@ app.use(express.urlencoded({extended: false}))
 const listRouters = require('./routers/listRouter')
 app.use("/api", [listRouters]);
 
+const userRouters = require('./routers/userRouter')
+app.use("/api", [userRouters]);
+
 //schemas 파일들과 연결하기
 const connect = require('./schemas');
 connect();

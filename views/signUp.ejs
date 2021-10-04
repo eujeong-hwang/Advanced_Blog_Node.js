@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
@@ -44,10 +44,10 @@
             const password1 = $("#inputPassword1").val();
             const password2 = $("#inputPassword2").val();
 
-            if (password1 !== password2) {
-                console.log("패스워드가 일치하지 않습니다.");
-                return;
-            }
+                       // if (password1 !== password2) {
+            //     console.log("패스워드가 일치하지 않습니다.");
+            //     return;
+            // }
 
             $.ajax({
                 type: "POST",
@@ -65,11 +65,22 @@
                     // });
                 },
                 error: function (error) {
-                    customAlert(error.responseJSON.errorMessage);
+                     if (password1 !== password2) {
+                        alert("패스워드가 패스워드 확인란과 다릅니다")
+                        window.location.href= '/signUp'
+                    }
+                    else{
+                        alert("닉네임이 이미 존재합니다")
+                         window.location.href = '/signUp'
+                    }
                 },
             });
         }
-
+        
+        // function customAlert(text) {
+        //     $("#alertText").text(text);
+        //     $("#alertModal").modal("show");
+        // }
 
     </script>
 
@@ -149,7 +160,6 @@
             </div>
         </div>
     </div>
-
 </body>
 
 </html>
