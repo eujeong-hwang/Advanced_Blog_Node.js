@@ -3,11 +3,13 @@ const jwt = require("jsonwebtoken");
 const User = require("../schemas/user");
 const router = express.Router();
 
-const authMiddleware = require("../middlewares/auth-middleware");
+// const authMiddleware = require("../middlewares/auth-middleware");
 
 // 회원가입 API - POST
 router.post("/signUp", async (req, res) => {
   const { nickname, password, confirmPassword } = req.body;
+
+  console.log(nickname, password)
 
   if (password !== confirmPassword) {
     res.status(400).send({
@@ -35,6 +37,8 @@ router.post("/signUp", async (req, res) => {
 //로그인 API - POST
 router.post("/signIn", async (req, res) => {
     const { nickname, password } = req.body;
+
+    console.log("sign In", nickname, password)
   
     const user = await User.findOne({ nickname });
   
@@ -48,23 +52,17 @@ router.post("/signIn", async (req, res) => {
       });
       return;
     }
-  
+    
+
+    //send token
     const token = jwt.sign({userId: user.userId}, "eujeong-secret-key")
     res.send({token})
-  
-  //   res.send({
-  //     //sign을 만들어야 token을 만들 수 있다!
-  //     token: jwt.sign({ nickname: nickname }, "eujeong-secret-key"),
-  //   });
   });
 
 
-// router.get("/signUp/me", authMiddleware, async(req, res) =>{
+// router.get("/users/me", authMiddleware, async(req, res) =>{
 //     res.status(400).send({});
 // })
-
-
-
 
 
 module.exports = router;

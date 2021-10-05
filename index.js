@@ -4,10 +4,11 @@ const port = 3000
 const jwt = require("jsonwebtoken");
 const authMiddleware = require("./middlewares/auth-middleware");
 
+app.use(express.static('assets'))
+
 //내 시크릿 키, token 저장
 const token = jwt.sign({ test:true }, "eujeong-secret-key");
 const decoded = jwt.decode("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZXN0Ijp0cnVlLCJpYXQiOjE2MzMzNTIzOTd9.TKFnbvQ_NsGvS5JRuwZxGZpI5N-PwL9t8-X63y5aPeY")
-
 console.log(token);
 console.log(decoded);
 
@@ -66,6 +67,9 @@ app.get('/signUp', (req, res) => {
   res.render('signUp');
 })
 
+// app.get("api/users/me", authMiddleware, async(req, res) => {
+//   res.status(400).send({});
+// })
 
 app.listen(port, () => {
   console.log(`listening at http://localhost:${port}`)

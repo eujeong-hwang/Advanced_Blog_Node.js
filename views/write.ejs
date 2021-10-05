@@ -38,8 +38,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
-
-    <link href="/static/mystyle.css" rel="stylesheet">
+<!-- 
+    <link href="/static/mystyle.css" rel="stylesheet"> -->
+    
     <title>나만의 블로그</title>
     <script>
         function blog_post() {
@@ -53,6 +54,9 @@
                 $.ajax({
                     type: "POST",
                     url: `/api/list`,
+                    headers:{
+                        authorization: `Bearer ${localStorage.getItem("token")}`, 
+                    },
                     data: {
                         title: title,
                         name: name,
