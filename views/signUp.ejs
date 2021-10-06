@@ -67,14 +67,16 @@
                     // });
                 },
                 error: function (error) {
-                     if (password1 !== password2) {
-                        alert("패스워드가 패스워드 확인란과 다릅니다")
-                        window.location.href= '/signUp'
-                    }
-                    else{
-                        alert("닉네임이 이미 존재합니다")
-                         window.location.href = '/signUp'
-                    }
+                    alert(error.responseJSON.errorMessage)
+                    window.location.href = '/signUp'
+                    //  if (password1 !== password2) {
+                    //     alert("패스워드가 패스워드 확인란과 다릅니다")
+                    //     window.location.href= '/signUp'
+                    // }
+                    // else{
+                    //     alert("닉네임이 이미 존재합니다")
+                    //      window.location.href = '/signUp'
+                    // }
                 },
             });
         }
