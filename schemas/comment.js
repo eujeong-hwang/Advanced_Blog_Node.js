@@ -8,7 +8,7 @@ const commentSchema = new Schema({
     unique: true,
   },
   postId: {
-    type: Number,
+    type: String,
     required: true
   },
   desc: {
@@ -20,10 +20,10 @@ const commentSchema = new Schema({
     required: true
   },
 
-  date: {
-    type: String,
-    required: true
-  }
+  // date: {
+  //   type: String,
+  //   required: true
+  // }
 });
 
 module.exports = mongoose.model("comment", commentSchema);

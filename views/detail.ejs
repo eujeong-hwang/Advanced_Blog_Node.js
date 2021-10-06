@@ -35,7 +35,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
 
 
-    <link href="/static/mystyle.css" rel="stylesheet">
+    <!-- <link href="/static/mystyle.css" rel="stylesheet"> -->
     <title>나만의 블로그</title>
     <script>
         const queryString = window.location.search;
@@ -44,7 +44,17 @@
 
         $(document).ready(function () {
             get_detail()
+            loadComment()
         })
+
+        //     if( localStorage.getItem("token"){
+        //         // userName()
+        //         $('#join').hide()
+        //         $('#login').hide()
+        //     } else{
+        //     $('#logout').hide()
+        // }
+        // })
 
         function get_detail() {
             $.ajax({
@@ -112,6 +122,52 @@
             location.href = "/edit?id=" + ID
         }
 
+
+        function saveComment() {
+            const postId = ID;
+
+            if ($('#desc').val().length === 0) {
+                alert("댓글 내용을 입력해 주세요")
+                window.location.reload()
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/comment",
+                    data: {
+                        postId,
+                        desc: $('#desc').val(),
+                    },
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                    success: function (response) {
+                        if (response["result"] == "success") {
+                            alert("댓글 작성 완료!")
+                        }
+                        // window.location.href = `/detail?postId=${postId}` // 두가지 방법을 쓸 수 있다아~
+                        window.location.reload()
+                    }
+                })
+            }
+        }
+
+
+        function loadComment() {
+            
+        }
+
+        function deleteComment() {
+
+        }
+
+        function modifyComment() {
+
+        }
+
+        function alarm() {
+
+        }
+
     </script>
     <style>
         body {
@@ -143,7 +199,7 @@
         </div>
     </section>
 
-    <section style="width: 700px; height: 600px; margin:auto; margin-top: 30px;">
+    <section style="width: 700px; height:600px; margin:auto; margin-top: 30px;">
         <!-- 제목 부분 -->
         <div class="field">
             <label class="label" style="color:aliceblue">제목</label>
@@ -217,29 +273,48 @@
     </div>
     <!-- modal div 끝 -->
 
-    <div class="form-group">
-        <label for="exampleFormControlTextarea1">코멘트 입력</label>
-        <textarea onclick=alarm() class="form-control" id="description" rows="3"></textarea>
-    </div>
 
-    <button onclick="saveComment()" class="button is-primary">댓글 작성</button>
+    <!-- 댓글 시작 -->
+    <section style="width: 700px; height: auto; margin:auto; margin-top: 30px;">
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">코멘트 입력</label>
+            <textarea onclick=alarm() class="form-control" id="desc" rows="3"></textarea>
+        </div>
 
-    <div class="row d-flex justify-content-center mt-100 mb-100">
+        <button onclick=saveComment() class="button is-link">댓글 작성</button>
+
+        <!-- <div class="row d-flex justify-content-center mt-100 mb-100">
         <div class="">
             <div class="card">
                 <div class="card-body text-center">
                     <h4 class="card-title">Latest Comments</h4>
                 </div>
                 <div class="comment-widgets" id="commentList">
-                    <!-- Comment Row -->
-
-
-                </div> <!-- Card -->
+    
+                </div> 
             </div>
         </div>
-    </div>
+    </div> -->
+
+        <div>
+            <div class="d-flex flex-row comment-row m-t-0" style="background-color: aliceblue;">
+                <div class="p-2"><img
+                        src="https://media.istockphoto.com/vectors/user-avatar-profile-icon-black-vector-illustration-vector-id1209654046?k=20&m=1209654046&s=612x612&w=0&h=Atw7VdjWG8KgyST8AXXJdmBkzn0lvgqyWod9vTb2XoE="
+                        alt="user" width="50" class="rounded-circle"></div>
+                <div class="comment-text w-100">
+                    <h6 class="font-medium">황유정</h6>
+                    <span id="desc" class="m-b-15 d-block">댓글 desc 예시~~</span>
+                    <div class="comment-footer"> <span class="text-muted float-right">시간</span>
+                        <button id="btn-modify" type="button" class="btn btn-cyan btn-sm"
+                            style="background: blue;">수정버튼</button>
+                        <button id="btn-delete" type="button" class="btn btn-danger btn-sm">삭제버튼</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
+    </section>
 </body>
 
 </html>

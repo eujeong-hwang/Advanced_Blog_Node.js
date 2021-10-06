@@ -25,6 +25,9 @@ app.use("/api", [listRouters]);
 const userRouters = require('./routers/userRouter')
 app.use("/api", [userRouters]);
 
+const commentRouters = require('./routers/commentRouter')
+app.use("/api", [commentRouters]);
+
 //schemas 파일들과 연결하기
 const connect = require('./schemas');
 connect();
@@ -65,6 +68,10 @@ app.get('/signIn', (req, res) => {
 
 app.get('/signUp', (req, res) => {
   res.render('signUp');
+})
+
+app.get('/comment', (req, res) => {
+  res.render('comment');
 })
 
 // app.get("api/users/me", authMiddleware, async(req, res) => {
