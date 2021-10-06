@@ -153,10 +153,72 @@
 
 
         function loadComment() {
-            
+            const postId = ID
+            $.ajax({
+                type: "GET",
+                url: `api/comment/${postId}`,
+                data: {},
+                success: function (response) {
+                    let comment = response["comment"]
+                    console.log(comment)
+
+                    for (let i = 0; i < comment.length; i++) {
+                        let author = comment[i]['author']
+                        let desc = comment[i]['desc']
+                        // let date = comment[i]['date']
+                        let commentId = comment[i]['commentId']
+
+                        let temp_html = `
+                        <div class="d-flex flex-row comment-row m-t-0" style="background-color: aliceblue;">
+                            <div class="p-2"><img
+                                    src="https://media.istockphoto.com/vectors/user-avatar-profile-icon-black-vector-illustration-vector-id1209654046?k=20&m=1209654046&s=612x612&w=0&h=Atw7VdjWG8KgyST8AXXJdmBkzn0lvgqyWod9vTb2XoE="
+                                    alt="user" width="50" class="rounded-circle"></div>
+                            <div class="comment-text w-100">
+                                <h6 class="font-medium">${author}</h6>
+                                <span id="desc${commentId}" class="m-b-15 d-block">${desc}</span>
+                                <div class="comment-footer"> <span class="text-muted float-right"></span>
+                                    <button onclick="modifyComment(${commentId})" id="btn-modify${commentId}" type="button" class="btn btn-cyan btn-sm"
+                                        style="background: blue;">수정버튼</button>
+                                    <button onclick="deleteComment(${commentId})" id="btn-delete" type="button" class="btn btn-danger btn-sm">삭제버튼</button>
+                                </div>
+                            </div>
+                        </div>`
+
+                        $('#commentList').append(temp_html)
+                    }
+
+                }
+
+            })
         }
 
-        function deleteComment() {
+        function deleteComment(commentId) {
+            if (confirm("정말 삭제하시겠습니까?") == true) {
+                $.ajax({
+                    type: "DELETE",
+                    url: `/api/comment`,
+                    data: {
+                        commentId
+                    },
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("token")}`
+                    },
+                    success: function (response) {
+                        if (response["result"] == "success") {
+                            alert("삭제 완료!")
+                        } else {
+                            alert("권한이 없습니다.")
+                        }
+
+                        window.location.reload()
+                    }
+
+                })
+            }
+            else {
+                return;
+            }
+
 
         }
 
@@ -275,7 +337,7 @@
 
 
     <!-- 댓글 시작 -->
-    <section style="width: 700px; height: auto; margin:auto; margin-top: 30px;">
+    <section style="width: 700px; height: auto; margin:auto; margin-top: 30px; padding-bottom: 20%;">
         <div class="form-group">
             <label for="exampleFormControlTextarea1">코멘트 입력</label>
             <textarea onclick=alarm() class="form-control" id="desc" rows="3"></textarea>
@@ -283,35 +345,40 @@
 
         <button onclick=saveComment() class="button is-link">댓글 작성</button>
 
-        <!-- <div class="row d-flex justify-content-center mt-100 mb-100">
-        <div class="">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h4 class="card-title">Latest Comments</h4>
-                </div>
-                <div class="comment-widgets" id="commentList">
-    
-                </div> 
-            </div>
-        </div>
-    </div> -->
 
-        <div>
-            <div class="d-flex flex-row comment-row m-t-0" style="background-color: aliceblue;">
-                <div class="p-2"><img
-                        src="https://media.istockphoto.com/vectors/user-avatar-profile-icon-black-vector-illustration-vector-id1209654046?k=20&m=1209654046&s=612x612&w=0&h=Atw7VdjWG8KgyST8AXXJdmBkzn0lvgqyWod9vTb2XoE="
-                        alt="user" width="50" class="rounded-circle"></div>
-                <div class="comment-text w-100">
-                    <h6 class="font-medium">황유정</h6>
-                    <span id="desc" class="m-b-15 d-block">댓글 desc 예시~~</span>
-                    <div class="comment-footer"> <span class="text-muted float-right">시간</span>
-                        <button id="btn-modify" type="button" class="btn btn-cyan btn-sm"
-                            style="background: blue;">수정버튼</button>
-                        <button id="btn-delete" type="button" class="btn btn-danger btn-sm">삭제버튼</button>
+        <!-- 댓글 보이게 하는 것 -->
+        <div class="row d-flex justify-content-center mt-100 mb-100">
+            <div class="">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h4 class="card-title">Latest Comments</h4>
                     </div>
+
+                    <div class="comment-widgets" id="commentList">
+                        <!-- comment 들어가는 곳 -->
+                    </div>
+
                 </div>
             </div>
         </div>
+
+
+
+        <!-- <div class="d-flex flex-row comment-row m-t-0" style="background-color: aliceblue;">
+            <div class="p-2"><img
+                    src="https://media.istockphoto.com/vectors/user-avatar-profile-icon-black-vector-illustration-vector-id1209654046?k=20&m=1209654046&s=612x612&w=0&h=Atw7VdjWG8KgyST8AXXJdmBkzn0lvgqyWod9vTb2XoE="
+                    alt="user" width="50" class="rounded-circle"></div>
+            <div class="comment-text w-100">
+                <h6 class="font-medium">황유정</h6>
+                <span id="desc" class="m-b-15 d-block">댓글 desc 예시~~</span>
+                <div class="comment-footer"> <span class="text-muted float-right">시간</span>
+                    <button onclick="modifyComment()" id="btn-modify" type="button" class="btn btn-cyan btn-sm"
+                        style="background: blue;">수정버튼</button>
+                    <button onclick="deleteComment()" id="btn-delete" type="button" class="btn btn-danger btn-sm">삭제버튼</button>
+                </div>
+            </div>
+        </div> -->
+
 
 
     </section>

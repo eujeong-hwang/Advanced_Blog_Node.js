@@ -74,9 +74,6 @@ app.get('/comment', (req, res) => {
   res.render('comment');
 })
 
-// app.get("api/users/me", authMiddleware, async(req, res) => {
-//   res.status(400).send({});
-// })
 
 app.listen(port, () => {
   console.log(`listening at http://localhost:${port}`)

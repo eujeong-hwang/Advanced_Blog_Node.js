@@ -27,10 +27,36 @@ router.post("/comment", authMiddleware, async (req, res, next) => {
   }
 });
 
-router.get("/comment/:ID", async(req, res) => {
-    
+router.get("/comment/:postId", async(req, res) => {
+    const {postId} = req.params
+    const comment = await Comment.find({postId}).sort("-commentId")
+
+    res.json({comment: comment})
 })
 
+
+router.delete("/comment", authMiddleware, async(req, res)=>{
+    const {user} = res.locals
+    const { commentId } = req.body
+    const tokenNickname = user["nickname"]
+
+    const p = await Comment.findOne({commentId})
+    const dbNickname = p["author"]
+
+    console.log(tokenNickname, dbNickname)
+
+    if(tokenNickname === dbNickname) {
+        await Comment.deleteOne({commentId})
+        res.send({result: "success"})
+    }
+    else{
+        res.send({result: "권한 없습니다(서버쪽임)"})
+    }
+})
+
+router.put("/comment", authMiddleware, async(req, res) => {
+
+})
 
 
 
