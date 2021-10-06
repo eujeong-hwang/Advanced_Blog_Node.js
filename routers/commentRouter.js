@@ -54,15 +54,24 @@ router.delete("/comment", authMiddleware, async(req, res)=>{
     }
 })
 
-router.put("/comment", authMiddleware, async(req, res) => {
+router.patch("/comment", authMiddleware, async(req, res) => {
+    const { user } = res.locals
+    const { commentId, desc } = req.body
 
+    console.log(commentId, desc)
+
+    const tokenNickname = user["nickname"]
+
+    const p = await Comment.findOne({commentId})
+    const dbNickname = p["author"]
+
+    if(tokenNickname === dbNickname) {
+        await Comment.updateOne({ commentId }, {$set : { desc }})
+        res.send({result: "success"})
+    } else{
+        res.send({result: "권한이 없습니다(서버 쪽)"})
+    }
 })
-
-
-
-
-
-
 
 
 

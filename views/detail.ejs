@@ -165,7 +165,6 @@
                     for (let i = 0; i < comment.length; i++) {
                         let author = comment[i]['author']
                         let desc = comment[i]['desc']
-                        // let date = comment[i]['date']
                         let commentId = comment[i]['commentId']
 
                         let temp_html = `
@@ -177,8 +176,10 @@
                                 <h6 class="font-medium">${author}</h6>
                                 <span id="desc${commentId}" class="m-b-15 d-block">${desc}</span>
                                 <div class="comment-footer"> <span class="text-muted float-right"></span>
+
                                     <button onclick="modifyComment(${commentId})" id="btn-modify${commentId}" type="button" class="btn btn-cyan btn-sm"
                                         style="background: blue;">수정버튼</button>
+
                                     <button onclick="deleteComment(${commentId})" id="btn-delete" type="button" class="btn btn-danger btn-sm">삭제버튼</button>
                                 </div>
                             </div>
@@ -222,7 +223,47 @@
 
         }
 
-        function modifyComment() {
+        function modifyComment(commentId) {
+            if($('#btn-modify' + commentId).text() === "수정 완료"){
+
+                $.ajax({
+                    type: "PATCH",
+                    url: `/api/comment`,
+                    data:{
+                        commentId,
+                        desc: $('#newDesc').val(),
+                    },
+                    headers:{
+                        authorization: `Bearer ${localStorage.getItem("token")}`
+                    },
+                    success: function(response){
+                        console.log(response)
+                        if(response["result"] == "success"){
+                            alert("수정이 완료 되었습니다!")
+                        } else{
+                            alert(response["result"])
+                        }
+                        window.location.reload()
+                    }
+                })
+            }
+            else {
+                let baseComment = $('#desc' + commentId).text()
+
+                console.log(baseComment)
+
+                $('#desc' + commentId).empty()
+                $("#desc" + commentId).append(`<textarea id="newDesc">${baseComment}</textarea>`);
+
+
+                $('#btn-modify' + commentId).empty()
+                $('#btn-modify' + commentId).append(`수정 완료`)
+
+            }
+
+        }
+
+        function finishCommentEdit(){
 
         }
 

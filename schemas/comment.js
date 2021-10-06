@@ -20,10 +20,6 @@ const commentSchema = new Schema({
     required: true
   },
 
-  // date: {
-  //   type: String,
-  //   required: true
-  // }
 });
 
 module.exports = mongoose.model("comment", commentSchema);
