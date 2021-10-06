@@ -111,6 +111,7 @@
                 data: {},
                 success: function (response) {
                     if (response["result"] === "success") {
+                        alert("삭제가 완료되었습니다!")
                         location.href = "/"
                     }
                 }
@@ -208,7 +209,7 @@
                         if (response["result"] == "success") {
                             alert("삭제 완료!")
                         } else {
-                            alert("권한이 없습니다.")
+                            alert("권한이 없습니다. 로그인 후 사용해 주세요")
                         }
 
                         window.location.reload()
@@ -263,12 +264,11 @@
 
         }
 
-        function finishCommentEdit(){
-
-        }
-
         function alarm() {
-
+            if(localStorage.getItem("token") == null){
+                alert("로그인이 필요한 기능입니다!")
+                window.location.href = 'signIn'
+            }
         }
 
     </script>

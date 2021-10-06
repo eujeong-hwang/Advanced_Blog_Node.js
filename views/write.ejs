@@ -38,54 +38,62 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
-<!-- 
+    <!-- 
     <link href="/static/mystyle.css" rel="stylesheet"> -->
-    
+
     <title>나만의 블로그</title>
     <script>
         function blog_post() {
-                let title = $("#title").val();
-                let name = $("#userName").val();
-                let pwd = $("#userPwd").val();
-                let content = $("#content").val();
-                //현재 시간 저장
-                let date = new Date()
-                let currentTime = date.getTime()
-                $.ajax({
-                    type: "POST",
-                    url: `/api/list`,
-                    headers:{
-                        authorization: `Bearer ${localStorage.getItem("token")}`, 
-                    },
-                    data: {
-                        title: title,
-                        name: name,
-                        pwd: pwd,
-                        currentTime,
-                        content: content,
-                    },
-                    success: function (response) {
-                        if (response['result'] == "success") {
-                            alert("글 등록 완료!");
-                            window.location.href = "/"
-                        }
+            let title = $("#title").val();
+            let name = $("#userName").val();
+            let pwd = $("#userPwd").val();
+            let content = $("#content").val();
+            //현재 시간 저장
+            let date = new Date()
+            let currentTime = date.getTime()
+            $.ajax({
+                type: "POST",
+                url: `/api/list`,
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+                data: {
+                    title: title,
+                    name: name,
+                    pwd: pwd,
+                    currentTime,
+                    content: content,
+                },
+                success: function (response) {
+                    if (response['result'] == "success") {
+                        alert("글 등록 완료!");
+                        window.location.href = "/"
                     }
-                });
-            }
+                }
+            });
+        }
 
-        </script>
+        function alarm() {
+            if (localStorage.getItem("token") == null) {
+                alert("로그인이 필요한 기능입니다!")
+                window.location.href = 'signIn'
+            }
+        }
+
+
+    </script>
     <style>
         body {
             background-color: rgb(65, 70, 73);
             min-height: 100vh;
         }
-    
+
         .title {
             font-weight: 800;
             font-size: 5rem;
             font-family: 'Do Hyeon', sans-serif;
         }
-    
+
         .is-sparta {
             color: #353131 !important;
         }
@@ -107,7 +115,7 @@
                 <input class="input" type="text" id="title" />
             </div>
         </div>
-        
+
         <!-- 작성자명 -->
         <div class="field">
             <label class="label" style="color:aliceblue">작성자명</label>
@@ -117,8 +125,8 @@
         </div>
 
 
-          <!-- 비밀번호 -->
-          <div class="field">
+        <!-- 비밀번호 -->
+        <div class="field">
             <label class="label" style="color:aliceblue">비밀번호 입력</label>
             <div class="control">
                 <input class="input" type="text" placeholder="숫자를 입력하세요" id="userPwd" />
@@ -132,15 +140,15 @@
                 <textarea class="textarea" id="content"></textarea>
             </div>
         </div>
-        
+
         <!-- 글 쓰기 버튼 -->
         <!-- onclick()만들어서 db에 저장하게 만들기 -->
         <div class="field is-grouped">
             <div class="control">
                 <!-- click하면 post되게 -->
-                <button class="button is-link" style="color:aliceblue" onclick="blog_post()">글 쓰기</button>
+                <button class="button is-link" style="color:aliceblue" onclick="blog_post(); alarm()">글 쓰기</button>
             </div>
-        
+
             <!-- 취소 버튼 -->
             <!-- 누르면 list 페이지로 이동하기 -->
             <div class="control">

@@ -48,6 +48,13 @@
 
         $(document).ready(function () {
             get_lists()
+
+            if(localStorage.getItem("token")){
+                $('#signInUp').hide()
+            }
+            else{
+                $('#logout').hide()
+            }
         })
 
         function get_lists() {
@@ -73,16 +80,21 @@
                             </tr>`
             $("#viewLists").append(htmlTemp)
         }
-       
-        //로그아웃 버튼 클릭 -> 쿠키(토큰)삭제 -> 로그인페이지로이동
+
         function sign_out() {
-            $.removeCookie('mytoken', {path: '/'});
-            alert('로그아웃 완료!')
+            localStorage.clear();
             window.location.href="/"
         }
+
+        function alarm() {
+            if (localStorage.getItem("token") == null) {
+                alert("로그인이 필요한 기능입니다!")
+                window.location.href = 'signIn'
+            }
+        }
+
     </script>
     <style>
-
         body {
             background-color: rgb(65, 70, 73);
             min-height: 100vh;
@@ -103,17 +115,18 @@
 <body>
     <!-- 로그인 회원가입 버튼 -->
     <div style="text-align: right; background-color: rgb(253, 253, 253);">
-        <button id="btn_login" class="btn btn-secondary btn-sm" type="button" style="background-color: rgb(118, 125, 131);">
+        <button id="signInUp" class="btn btn-secondary btn-sm" type="button"
+            style="background-color: rgb(118, 125, 131);">
             <a class="navbar-brand" href="/signIn" style="color:rgb(241, 229, 229)">
                 로그인/회원가입
             </a>
         </button>
 
-        <!-- <button id="btn_logout" class="btn btn-secondary btn-sm" type="button" style="background-color: rgb(118, 125, 131);">
-            <a class="navbar-brand" onclick="logout()" style="color:rgb(241, 229, 229)">
+        <button id = "logout" onclick="sign_out()" id="btn_logout" class="btn btn-secondary btn-sm" type="button" style="background-color: rgb(118, 125, 131);">
+            <a class="navbar-brand" style="color:rgb(241, 229, 229)">
                 로그아웃
             </a>
-        </button> -->
+        </button>
 
     </div>
     <!--제목-->
@@ -130,9 +143,9 @@
                 </a>
             </button>
         </div>
-
-
     </section>
+
+
     <table class="table" style="width: 800px; margin:auto; margin-top: 20px;">
         <!-- header -->
         <thead>
@@ -140,14 +153,14 @@
                 <th>제목</th>
                 <th>작성자명</th>
                 <th>작성 날짜</th>
-                
+
             </tr>
         </thead>
 
         <!-- body -->
         <tbody id="viewLists">
-             <!-- 1 body of 제목, 작성자명, 작성 시간 -->
-             <tr>
+            <!-- 1 body of 제목, 작성자명, 작성 시간 -->
+            <tr>
                 <th><a href="/detail">세 번째 게시물-내림차순</a></th>
                 <td>황유정</td>
                 <td>2021-9-25 12시 50분 </td>
@@ -171,19 +184,10 @@
 
 
     </table>
-</div>
+    </div>
 
-    <section>
-
-
-    </section>
-
-
-
-
-
-
-
+<section>
+</section>
 
 </body>
 
