@@ -86,10 +86,20 @@
             window.location.href="/"
         }
 
-        function alarm() {
+        // function alarm() {
+        //     if (localStorage.getItem("token") == null) {
+        //         alert("로그인이 필요한 기능입니다!")
+        //         window.location.href = 'signIn'
+        //     }
+        // }
+
+        function goToWrite(){
             if (localStorage.getItem("token") == null) {
                 alert("로그인이 필요한 기능입니다!")
                 window.location.href = 'signIn'
+            }
+            else{
+                window.location.href = 'write'
             }
         }
 
@@ -137,8 +147,8 @@
 
         <!-- 글쓰기 버튼 -->
         <div class="d-grid gap-2" style="text-align: right;">
-            <button class="btn btn-primary" type="button" style="background-color: rgb(93, 105, 116);">
-                <a class="navbar-brand" href="/write" style="color:rgb(241, 229, 229)">
+            <button onclick="goToWrite()"class="btn btn-primary" type="button" style="background-color: rgb(93, 105, 116);">
+                <a class="navbar-brand" style="color:rgb(241, 229, 229)">
                     글쓰기
                 </a>
             </button>

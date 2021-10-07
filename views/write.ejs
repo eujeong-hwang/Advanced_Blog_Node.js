@@ -73,12 +73,12 @@
             });
         }
 
-        function alarm() {
-            if (localStorage.getItem("token") == null) {
-                alert("로그인이 필요한 기능입니다!")
-                window.location.href = 'signIn'
-            }
-        }
+        // function alarm() {
+        //     if (localStorage.getItem("token") == null) {
+        //         alert("로그인이 필요한 기능입니다!")
+        //         window.location.href = 'signIn'
+        //     }
+        // }
 
 
     </script>
@@ -146,7 +146,7 @@
         <div class="field is-grouped">
             <div class="control">
                 <!-- click하면 post되게 -->
-                <button class="button is-link" style="color:aliceblue" onclick="blog_post(); alarm()">글 쓰기</button>
+                <button class="button is-link" style="color:aliceblue" onclick="blog_post();">글 쓰기</button>
             </div>
 
             <!-- 취소 버튼 -->

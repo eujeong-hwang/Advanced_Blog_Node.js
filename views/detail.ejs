@@ -47,15 +47,6 @@
             loadComment()
         })
 
-        //     if( localStorage.getItem("token"){
-        //         // userName()
-        //         $('#join').hide()
-        //         $('#login').hide()
-        //     } else{
-        //     $('#logout').hide()
-        // }
-        // })
-
         function get_detail() {
             $.ajax({
                 type: "GET",
@@ -74,9 +65,15 @@
 
         // 삭제하기 버튼을 누르면 modal 창이 뜨게 하는 function    
         function start_modal() {
-            $('#list_modal').modal('show');
-            $('#list_modal').appendTo('body');
-
+            if (localStorage.getItem("token") == null) {
+                alert("로그인이 필요한 기능입니다!")
+                window.location.href = 'signIn'
+            }
+            else{
+                $('#list_modal').modal('show');
+                $('#list_modal').appendTo('body');
+ 
+            }
         }
 
         function deleted() {
@@ -120,7 +117,12 @@
         }
 
         function edit_list(detail) {
-            location.href = "/edit?id=" + ID
+            if (localStorage.getItem("token") == null) {
+                alert("로그인이 필요한 기능입니다!")
+                window.location.href = 'signIn'
+            } else{
+                location.href = "/edit?id=" + ID
+            }
         }
 
 
