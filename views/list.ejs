@@ -40,9 +40,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
 
-    <!-- <link href="/static/mystyle.css" rel="stylesheet"> -->
-
-
     <title>나만의 블로그</title>
     <script>
 
@@ -85,13 +82,6 @@
             localStorage.clear();
             window.location.href="/"
         }
-
-        // function alarm() {
-        //     if (localStorage.getItem("token") == null) {
-        //         alert("로그인이 필요한 기능입니다!")
-        //         window.location.href = 'signIn'
-        //     }
-        // }
 
         function goToWrite(){
             if (localStorage.getItem("token") == null) {
@@ -169,27 +159,12 @@
 
         <!-- body -->
         <tbody id="viewLists">
-            <!-- 1 body of 제목, 작성자명, 작성 시간 -->
+            <!-- body of 제목, 작성자명, 작성 시간 -->
             <tr>
                 <th><a href="/detail">세 번째 게시물-내림차순</a></th>
                 <td>황유정</td>
                 <td>2021-9-25 12시 50분 </td>
             </tr>
-
-            <!-- 2 body of 제목, 작성자명, 작성 시간 -->
-            <!-- <tr>
-                <th><a href="/detail">두 번째 게시물-내림차순</a></th>
-                <td>황유정</td>
-                <td>2021-9-25 12시 19분</td>
-            </tr> -->
-
-            <!-- 3 body of 제목, 작성자명, 작성 시간 -->
-            <!-- <tr>
-                <th><a href="/detail">첫 번째 게시물</a></th>
-                <td>황유정</td>
-                <td>2021-9-25 12시 18분 </td>
-            </tr>  -->
-
         </tbody>
 
 

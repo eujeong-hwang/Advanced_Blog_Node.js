@@ -34,8 +34,6 @@
     <!--새로 추가    -->
     <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
 
-
-    <!-- <link href="/static/mystyle.css" rel="stylesheet"> -->
     <title>나만의 블로그</title>
     <script>
         const queryString = window.location.search;
@@ -97,7 +95,7 @@
         }
 
         // db_pwd == $('#list_pwd').val())가 true일 경우 
-        //function delete_list()가 작동!
+        // function delete_list()가 작동!
         function delete_list() {
             $.ajax({
                 type: "DELETE",
@@ -147,7 +145,6 @@
                         if (response["result"] == "success") {
                             alert("댓글 작성 완료!")
                         }
-                        // window.location.href = `/detail?postId=${postId}` // 두가지 방법을 쓸 수 있다아~
                         window.location.reload()
                     }
                 })
@@ -252,13 +249,8 @@
             }
             else {
                 let baseComment = $('#desc' + commentId).text()
-
-                console.log(baseComment)
-
                 $('#desc' + commentId).empty()
                 $("#desc" + commentId).append(`<textarea id="newDesc">${baseComment}</textarea>`);
-
-
                 $('#btn-modify' + commentId).empty()
                 $('#btn-modify' + commentId).append(`수정 완료`)
 
@@ -350,11 +342,11 @@
         aria-hidden="true" style="z-index:500;">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
+
+                <!-- modal header -->
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">삭제</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <!-- <span aria-hidden="true">&times;</span> -->
-                    </button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <!-- modal body -->
@@ -366,7 +358,7 @@
                     </div>
                 </div>
 
-                <!-- 확인, 취소하기 -->
+                <!-- modal footer, 확인, 취소하기 -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="deleted()">확인</button>
                     <!-- data-dismiss="modal"는 취소 누르면 modal 창 없애게 해줌 -->
@@ -388,7 +380,6 @@
 
         <button onclick=saveComment() class="button is-link">댓글 작성</button>
 
-
         <!-- 댓글 보이게 하는 것 -->
         <div class="row d-flex justify-content-center mt-100 mb-100">
             <div class="">
@@ -404,26 +395,6 @@
                 </div>
             </div>
         </div>
-
-
-
-        <!-- <div class="d-flex flex-row comment-row m-t-0" style="background-color: aliceblue;">
-            <div class="p-2"><img
-                    src="https://media.istockphoto.com/vectors/user-avatar-profile-icon-black-vector-illustration-vector-id1209654046?k=20&m=1209654046&s=612x612&w=0&h=Atw7VdjWG8KgyST8AXXJdmBkzn0lvgqyWod9vTb2XoE="
-                    alt="user" width="50" class="rounded-circle"></div>
-            <div class="comment-text w-100">
-                <h6 class="font-medium">황유정</h6>
-                <span id="desc" class="m-b-15 d-block">댓글 desc 예시~~</span>
-                <div class="comment-footer"> <span class="text-muted float-right">시간</span>
-                    <button onclick="modifyComment()" id="btn-modify" type="button" class="btn btn-cyan btn-sm"
-                        style="background: blue;">수정버튼</button>
-                    <button onclick="deleteComment()" id="btn-delete" type="button" class="btn btn-danger btn-sm">삭제버튼</button>
-                </div>
-            </div>
-        </div> -->
-
-
-
     </section>
 </body>
 
