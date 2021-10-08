@@ -11,7 +11,7 @@ router.post('/comment', authMiddleware, async (req, res, next) => {
         const { desc } = req.body
 
         const author = user['nickname']
-        // ?
+        //???
         const recentComment = await Comment.find().sort('-commentId').limit(1)
 
         let commentId = 1
