@@ -64,7 +64,10 @@
                 },
                 error: function (error) {
                     alert(error.responseJSON.errorMessage);
-                    window.location.reload()
+                    
+                    // id, pw 잘못 입력해서 로그인 실패할 때마다 reload되는 화면이 불편하다고
+                    // feedback을 받아, 고치게 됨!
+                    // window.location.reload()
                 },
             });
         }

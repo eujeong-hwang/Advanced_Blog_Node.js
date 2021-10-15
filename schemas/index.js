@@ -2,12 +2,12 @@ const mongoose = require('mongoose')
 
 const connect = () => {
     mongoose
-        // .connect('mongodb://localhost:27017/admin', {
-        .connect('mongodb://localhost:27017/mypage', {
+        // .connect(process.env.DB_SERVER_HOST, {
+        .connect(process.env.DB_LOCAL_HOST, {
             useNewUrlParser: true,
             ignoreUndefined: true,
-            // user: "test",
-            // pass: "test"
+            // user: process.env.DB_USER_ID,
+            // pass: process.env.DB_PASSWORD
         })
         .catch((err) => console.log(err))
 }
